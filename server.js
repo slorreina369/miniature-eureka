@@ -4,6 +4,7 @@ const notes = require('./db/db.json');
 const express = require('express');
 const path = require('path');
 const app = express();
+const uniqid = require('uniqid');
 const PORT = process.env.PORT || 3001;
 
 
@@ -16,13 +17,14 @@ app.get('/api/notes', (req,res) =>{
 
 app.post('/api/notes', (req, res) =>{
     console.log(req.body);
+    req.body.id = uniqid();
     //add new note to notes array
     notes.push(req.body);
     // save updated json
     fs.writeFileSync(
         path.join(__dirname, './db/db.json'),
-        JSON.stringify(notes)
-    )
+        JSON.stringify(notes, null, 2)
+    );
 });
 
 app.get('/notes', (req, res) => {
