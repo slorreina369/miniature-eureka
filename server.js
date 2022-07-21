@@ -25,6 +25,20 @@ app.post('/api/notes', (req, res) =>{
         path.join(__dirname, './db/db.json'),
         JSON.stringify(notes, null, 2)
     );
+    
+    res.json(req.body);
+});
+
+app.delete("/api/notes/:id", (req, res) => {
+    let notesIndex = notes.findIndex(notes => notes.id ===req.params.id);
+
+    notes.splice(notesIndex, 1);
+    fs.writeFileSync(
+        path.join(__dirname, './db/db.json'),
+        JSON.stringify(notes, null, 2)
+    );
+
+    res.status(204).json({message:'it worke fuck off'})
 });
 
 app.get('/notes', (req, res) => {
